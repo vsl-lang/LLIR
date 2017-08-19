@@ -1,0 +1,78 @@
+{
+  "name": "llir",
+  "version": "0.0.1-alpha.1",
+  "description": "LLIR: Graph Optimizing LLVM-targetted backend.",
+  "main": "lib/llir.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "prepare": "npm run build",
+    "build": "cross-env NODE_ENV=production npm run dev",
+    "dev": "babel src/ -d lib/ -s",
+    "watch": "babel src/ -d lib/ -s --watch",
+    "clean": "rm -r lib",
+    "lint": "eslint src",
+    "docs": "esdoc",
+    "test": "mocha",
+    "coverage": "cross-env NODE_ENV=test nyc npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vsl-lang/LLIR.git"
+  },
+  "bin": {
+    "llir": "lib/cli.js"
+  },
+  "author": "vihanb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vsl-lang/LLIR/issues"
+  },
+  "homepage": "https://github.com/vsl-lang/LLIR#readme",
+  "dependencies": {
+    "babel-runtime": "^6.23.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-include": "^1.2.0",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-loop-optimizer": "^1.4.1",
+    "babel-plugin-syntax-class-properties": "^6.13.0",
+    "babel-plugin-syntax-do-expressions": "^6.13.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-do-expressions": "^6.22.0",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-function-bind": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-wildcard": "^2.1.0",
+    "babel-preset-env": "^1.5.1",
+    "babel-register": "^6.24.1",
+    "cross-env": "^5.0.0",
+    "esdoc": "^0.5.2",
+    "esdoc-babel-plugin": "github:mhelvens/esdoc-babel-plugin",
+    "eslint": "^3.19.0",
+    "mocha": "^3.4.2",
+    "npm": "^4.6.1",
+    "nyc": "^10.3.2"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "include": [
+      "src/vsl/**/*.js"
+    ],
+    "exclude": [],
+    "all": true,
+    "sourceMap": false,
+    "instrument": false
+  }
+}

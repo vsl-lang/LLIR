@@ -1,0 +1,40 @@
+{
+    "title": "LLIR",
+    "source": "./src",
+    "destination": "docs",
+    "styles": ["misc/doc.css"],
+    "scripts": ["misc/doc.js"],
+    "excludes": ["^app", "^cli"],
+    "test": {
+        "type": "mocha",
+        "source": "./test",
+        "includes": ["\\.js$"]
+    },
+    "plugins": [
+        {
+          "name": "esdoc-babel-plugin",
+          "option": {
+            "plugins": [
+                "babel-plugin-syntax-do-expressions",
+                "babel-plugin-syntax-class-properties",
+                
+                "babel-plugin-transform-export-extensions",
+                "babel-plugin-transform-flow-strip-types",
+                "babel-plugin-transform-function-bind",
+                "babel-plugin-transform-class-properties",
+                "babel-plugin-transform-do-expressions"
+            ]
+          }
+        }
+    ],
+    "experimentalProposal": {
+        "classProperties": true,
+        "objectRestSpread": true,
+        "decorators": true,
+        "doExpressions": true,
+        "functionBind": true,
+        "asyncGenerators": true,
+        "exportExtensions": true,
+        "dynamicImport": true
+    }
+}
