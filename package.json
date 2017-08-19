@@ -4,7 +4,6 @@
   "description": "LLIR: Graph Optimizing LLVM-targetted backend.",
   "main": "lib/llir.js",
   "scripts": {
-    "prepublish": "npm run build",
     "prepare": "npm run build",
     "build": "cross-env NODE_ENV=production npm run dev",
     "dev": "babel src/ -d lib/ -s",
