@@ -1,2 +1,3 @@
 // Alias for LLIR
-export * from "./llir.js";
+export * as LLIR from "./LLIR";
+export * as Solver from "./Solver";
