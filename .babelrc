@@ -1,5 +1,12 @@
 {
     "plugins": [
+        ["babel-plugin-root-import", [{
+            "rootPathPrefix": "~",
+            "rootPathSuffix": "src/"
+        }, {
+            "rootPathPrefix": "@",
+            "rootPathSuffix": "src/LLIR"
+        }]],
         "babel-plugin-include",
         "babel-plugin-loop-optimizer",
         "babel-plugin-wildcard",

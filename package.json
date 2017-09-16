@@ -38,6 +38,7 @@
     "babel-plugin-include": "^1.2.0",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-loop-optimizer": "^1.4.1",
+    "babel-plugin-root-import": "^5.1.0",
     "babel-plugin-syntax-class-properties": "^6.13.0",
     "babel-plugin-syntax-do-expressions": "^6.13.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
