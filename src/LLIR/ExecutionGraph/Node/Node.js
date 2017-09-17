@@ -24,17 +24,55 @@ export default class Node {
     init() {}
     
     /**
+     * Abstract listener for when the atomic parent was set. The parent may be
+     * null when this is called.
+     * @abstract}
+     */
+    didSetAtomicParent() {}
+    
+    /**
      * Sets the atomic parent for the current node.
-     *
-     * - **unsafe**
      *
      * @param {AtomicGraph} parent - The _immediate_ atomic parent of this
      *                             node. This will be associated with this and
      *                             can only be associated with one immediate
      *                             atomic node.
+     * @return {boolean} `true` if the atomic parent was set, `false` if not.
+     *                   a `false` return would be caused by the node already
+     *                   being owned by another graph.
      */
     setAtomicParent(parent) {
+        if (this.atomicParent !== null) return false;
         this.atomicParent = parent;
+        this.didSetAtomicParent()
+        return true;
+    }
+    
+    /**
+     * Returns a generator returning the atomic parents (bottom-up) of the node.
+     * @return {GeneratorFunction}
+     */
+    *atomicParents() {
+        let parent = this.getImmediateAtomicParent();
+        
+        do yield parent;
+        while ((parent = parent.getSupergraph()));
+    }
+    
+    /**
+     * Disowns a node from a parent {@link AtomicGraph}. This will remove the
+     * ownership if the passed parent matches the stored one.
+     *
+     * @param  {AtomicGraph} parent - graph which claims to have ownership over
+     *                              the node
+     * @return {boolean} `true` if disowned, `false` if not, meaning the graph
+     *                   is not the owner.
+     */
+    disown(parent) {
+        if (parent !== this.atomicParent) return false;
+        this.atomicParent = null;
+        this.didSetAtomicParent();
+        return true;
     }
     
     /**

@@ -12,15 +12,22 @@ export default class GraphBuilder {
     /**
      * Creates a conditional branch
      *
-     * @param {AtomicGraph[]} [branches=[]] - An array of atomic graphs
-     *                                      representing branches, you can
-     *                                      modify this later. Or leave this
-     *                                      empty if you want to setup your own,
-     *                                      more complex branching info.
-     * @return {Conditional} a conditional branch node set up for the given
-     *                       execution graph.
+     * @param {Branch[]} [branches=[]] - An array of atomic graphs representing
+     *                                 branches, you can modify this later. Or
+     *                                 leave this empty if you want to setup
+     *                                 your own, more complex branching info.
+     * @return {?Conditional} a conditional branch node set up for the given
+     *                        execution graph. This will be `null` if the
+     *                        branch is not compatible with branch exists.
      */
     conditional(branches = []) {
-        return new Conditional(null);
+        let conditional = new Conditional(null);
+        
+        for (let i = 0; i < branches.length; i++) {
+            let branch = conditional.branch(branches[i].condition);
+            let result = branch.setFromGraph(branches.setSubgraph)
+        }
+        
+        return conditional;
     }
 }

@@ -26,4 +26,23 @@ export default class Recursion extends Node {
         this.depth = depth;
         return true;
     }
+    
+    /**
+     * Returns the depth of a parent {@link AtomicGraph} in relation to a
+     * {@link Node} object
+     *
+     * @param {Node} node - The node to locate the parent {@link AtomicGraph}
+     *                    from
+     * @param {AtomicGraph} graph - The graph to locate
+     * @return {number} The depth of the {@link Node}. If the
+     *                  {@link AtomicGraph} is not found. This is `-1`
+     */
+     static findDepth(node, graph) {
+         let depth = 0;
+         for (let parent of this.atomicParents()) {
+             if (parent === graph) return depth;
+             depth += 1;
+         }
+         return -1;
+     }
 }

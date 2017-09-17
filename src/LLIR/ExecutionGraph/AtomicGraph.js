@@ -11,7 +11,7 @@ export default class AtomicGraph {
      * @param  {?AtomicGraph} [supergraph=null] The super {@link AtomiGraph} of
      *                                          this graph.
      */
-    constructor(supergraph) {
+    constructor(supergraph = null) {
         /** @private */
         this.supergraph = supergraph;
         
@@ -85,10 +85,11 @@ export default class AtomicGraph {
     /**
      * Notifies that a new node has been added/
      * @param {Node} node - node
+     * @return {boolean} if successful
      * @private
      */
     notifyNewNode(node) {
-        node.setAtomicParent(this);
+        return node.setAtomicParent(this);
     }
     
     /**
@@ -100,8 +101,16 @@ export default class AtomicGraph {
     setAtom(node) {
         if (this.node !== null) return false;
         this.node = node;
-        this.notifyNewNode(this.node);
-        return true;
+        return this.notifyNewNode(this.node);
+    }
+    
+    /**
+     * Returns the primary node of the atomic graph.
+     * @return {?Node} the subgraph's node. `null` if does not exist. If that is
+     *                 the whole atomic graph is void
+     */
+    getAtom() {
+        return this.node;
     }
     
     /**

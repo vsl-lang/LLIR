@@ -11,6 +11,9 @@ export default class Exit extends Node {
     /** @override */
     init() {
         this.interactor = null;
+        
+        /** @private */
+        this.depth = 0;
     }
     
     /**

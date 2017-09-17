@@ -4,9 +4,12 @@ import { StreamChurn } from '@/Generator/Churn/*';
 
 let graph = new ExecutionGraph();
 
-graph.main.body.setAtom(
-    graph.make.conditional()
-)
+let conditional = graph.make.conditional()
+let branch = conditional.branch(
+    condition
+);
+
+graph.main.body.setAtom(conditional);
 
 let generator = graph.generateWith( new Generator.LL())
 let stream = new StreamChurn(
