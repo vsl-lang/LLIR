@@ -93,7 +93,7 @@ export default class Node {
       */
      getAtomicParent(depth) {
          let parent = this.atomicParent;
-         while (depth --> 0 && (parent = this.atomicParent.getSupergraph()));
+         while (depth --> 0 && parent && (parent = parent.getSupergraph()));
          return parent;
      }
     

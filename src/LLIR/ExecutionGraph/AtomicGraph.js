@@ -41,6 +41,7 @@ export default class AtomicGraph {
         
         this.notifyNewNode(this.entry);
         this.notifyNewNode(this.exit);
+        this.notifyNewNode(this.recursionEntry);
     }
     
     /**

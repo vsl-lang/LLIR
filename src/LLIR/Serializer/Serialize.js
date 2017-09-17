@@ -12,6 +12,7 @@ export default class Serialize {
     static GRAPH = 0x10;
     static SUBGRAPH = 0x11;
     static ATOMIC_GRAPH = 0x12;
+    static BRANCH = 0x1A;
     
     static NODE = 0x20;
     
@@ -21,6 +22,25 @@ export default class Serialize {
     
     static T_CONDITIONAL = 0x2A;
     static T_CHAIN = 0x2B;
+    
+    static ID_FALLTHROUGH = 0xD0;
+    static ID_BRANCHES = 0xD1;
+    static ID_CONDITION = 0xDA;
+    static ID_EXPRESSION = 0xDB;
+    
+    static PAYLOAD_01 = 0xA0;
+    
+    static DATA_01 = 0xB0;
+    static DATA_02 = 0xB1;
+    static DATA_03 = 0xB2;
+    static DATA_04 = 0xB3;
+    
+    static TYPE_01 = 0xC1; // 8-bit uint8 (id eg fallthrough)
+    static TYPE_04 = 0xC0; // integer (4-bit)
+    static TYPE_F1 = 0xCA; // F1 = 0x1X (ie graph, subgraph,etc.)
+    static TYPE_F2 = 0xCB; // G2 = 0x2X (ie node)
+    static TYPE_FE = 0xCE; // follow by [TYPE_01, uint32 len, TYPE_F1 values]
+    static TYPE_FF = 0xCF; // end by 0x00 (ie string)
     
     static EXIT = 0xF1;
     
@@ -33,17 +53,28 @@ export default class Serialize {
     }
     
     /** @private */
+    resize() {
+        const RESIZE_FACTOR = 1.5;
+        let oldBuffer = this.buffer;
+        this.buffer = Buffer.allocUnsafe(~~(oldBuffer.length * RESIZE_FACTOR));
+        let end = oldBuffer.copy(this.buffer);
+        while (end < this.buffer.length) this.buffer[end++] = 0;
+    }
+    
+    /** @private */
     writeOne(byte) {
-        if (this.buffer.length <= this.pos) {
-            const RESIZE_FACTOR = 1.5;
-            let oldBuffer = this.buffer;
-            this.buffer = Buffer.allocUnsafe(~~(oldBuffer.length * RESIZE_FACTOR));
-            let end = oldBuffer.copy(this.buffer);
-            while (end < this.buffer.length) this.buffer[end++] = 0;
-        }
+        while (this.buffer.length <= this.pos) this.resize();
         
         this.buffer.writeUInt8(byte, this.pos, true)
         this.pos++;
+    }
+    
+    /** @private */
+    writeInt(int) {
+        while (this.buffer.length <= this.pos + 4) this.resize();
+        
+        this.buffer.writeUInt32LE(int, this.pos, true);
+        this.pos += 4;
     }
     
     /** @private */
@@ -134,6 +165,17 @@ export default class Serialize {
       */
      serializeExit(node) {
          this.writeOne(Serialize.T_EXIT);
+         this.writeOne(Serialize.DATA_01);
+         this.writeOne(Serialize.TYPE_04);
+         this.writeInt(node.depth);
+     }
+     
+     /**
+      * Serializes chain
+      * @param {Chain} node - chian node
+      */
+     serializeChain(node) {
+         this.writeOne(Serialize.T_CHAIN);
      }
      
      /**
@@ -142,13 +184,67 @@ export default class Serialize {
       */
      serializeRecursion(node) {
          this.writeOne(Serialize.T_RECURSION);
+         this.writeOne(Serialize.DATA_01);
+         this.writeOne(Serialize.TYPE_04);
+         this.writeInt(node.depth);
      }
      
      /**
       * Serializes Conditional
+      *
+      * 01) fallthrough
+      * 01) atomic graph
+      * 02) branches
+      *
       * @param {Conditional} node - conditional node
       */
      serializeConditional(node) {
          this.writeOne(Serialize.T_CONDITIONAL);
+         
+         // Write fallthrough
+         this.writeOne(Serialize.DATA_01);
+         this.writeOne(Serialize.TYPE_01);
+         this.writeOne(Serialize.ID_FALLTHROUGH);
+         this.writeOne(Serialize.DATA_02);
+         this.writeOne(Serialize.TYPE_F1);
+         this.serializeAtomicGraph(node.fallthrough);
+         
+         // Write branches
+         this.writeOne(Serialize.DATA_03);
+         this.writeOne(Serialize.TYPE_FE);
+         this.writeOne(Serialize.ID_BRANCHES);
+         this.writeInt(node.branches.size);
+         for (let branch of node.branches)
+            this.serializeBranch(branch);
+     }
+     
+     /**
+      * Serializes Conditional
+      *
+      * 01) condition
+      * 02) value (atomic graph)
+      * 03) expresssion
+      * 04) value (atomic graph)
+      *
+      * @param {branch} branch - branch node
+      */
+     serializeBranch(branch) {
+         this.writeOne(Serialize.BRANCH);
+         
+         this.writeOne(Serialize.DATA_01);
+         this.writeOne(Serialize.TYPE_01);
+         this.writeOne(Serialize.ID_CONDITION);
+         this.writeOne(Serialize.DATA_02);
+         this.writeOne(Serialize.TYPE_F1);
+         this.serializeAtomicGraph(branch.condition);
+         
+         this.writeOne(Serialize.DATA_03);
+         this.writeOne(Serialize.TYPE_01);
+         this.writeOne(Serialize.ID_EXPRESSION);
+         this.writeOne(Serialize.DATA_04);
+         this.writeOne(Serialize.TYPE_F1);
+         this.serializeAtomicGraph(branch.graph);
+         
+         this.writeOne(Serialize.EXIT);
      }
 }
