@@ -1,6 +1,6 @@
 {
   "name": "llir",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.3",
   "description": "LLIR: Graph Optimizing LLVM-targetted backend.",
   "main": "lib/llir.js",
   "scripts": {
@@ -19,7 +19,6 @@
     "url": "git+https://github.com/vsl-lang/LLIR.git"
   },
   "bin": {
-    "llir": "lib/cli.js"
   },
   "author": "vihanb",
   "license": "MIT",
