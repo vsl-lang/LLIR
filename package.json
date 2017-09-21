@@ -50,6 +50,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-plugin-wildcard": "^2.1.0",
     "babel-preset-env": "^1.5.1",
+    "babel-preset-optimized": "^1.0.2",
     "babel-register": "^6.24.1",
     "cross-env": "^5.0.0",
     "esdoc": "^0.5.2",

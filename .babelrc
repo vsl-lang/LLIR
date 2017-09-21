@@ -21,6 +21,7 @@
         "babel-plugin-transform-object-rest-spread"
     ],
     "presets": [
+        "optimized",
         ["env", {
             "targets": {
                 "node": "4.8"
