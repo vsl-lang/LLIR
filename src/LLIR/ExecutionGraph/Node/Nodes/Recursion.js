@@ -4,6 +4,8 @@ import i from '@/Serializer/SerializationInfo';
 /**
  * This is the recursion entry point that is ignored for typical translation
  * analysis. This represents a non-linear entry
+ *
+ * @extends Node
  */
 export default class Recursion extends Node {
     init() {

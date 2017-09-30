@@ -2,10 +2,12 @@ import Node from '@/ExecutionGraph/Node/Node';
 import i from '@/Serializer/SerializationInfo';
 
 /**
- * Represents an entry ($S$) node of an execution graph. This has implicit
+ * Represents an entry (\\[S\\]) node of an execution graph. This has implicit
  * domain analysis based upon payload of conditional branches. Use the
  * {@link PayloadInteractor} class to interact with this node's interface for
  * tracking fallthrough etc.
+ *
+ * @extends Node
  */
 export default class Entry extends Node {
     /** @override */
@@ -26,7 +28,7 @@ export default class Entry extends Node {
      * @return {string} debuggable string
      */
     toString() {
-        return `Start`;
+        return `\u001B[1mStart\u001B[0m`;
     }
     
     /**

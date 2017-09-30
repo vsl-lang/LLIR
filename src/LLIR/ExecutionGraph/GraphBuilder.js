@@ -1,4 +1,4 @@
-import { Conditional } from '@/ExecutionGraph/Node/Nodes/*';
+import { Conditional, NoOp } from '@/ExecutionGraph/Node/Nodes/*';
 
 /**
  * Factory class for building graph nodes for {@link ExecutionGraph}s.
@@ -14,7 +14,7 @@ export default class GraphBuilder {
     
     /**
      * Sets a default payload generator for a node.
-     * 
+     *
      * @param {func(node: Node): any} payloadSource - function returning payload
      * for a node.
      */
@@ -47,7 +47,8 @@ export default class GraphBuilder {
     
     /** @private */
     finishNode(node) {
-        if (this.payloadMake !== null) return;
+        if (node instanceof NoOp) node.setPlaceholder(false);
+        if (this.payloadMake === null) return;
         node.setInitialPaylaod(this.payloadMake(node));
     }
 }

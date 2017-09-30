@@ -2,6 +2,7 @@ import GeneratorPayloadSource from '~/Generator/Payload/GeneratorPayloadSource';
 
 /**
  * Manager class for a generator instance
+ * @abstract
  */
 export default class GeneratorBase {
     /**
@@ -12,7 +13,7 @@ export default class GeneratorBase {
     
     /**
      * Returns payload source, use this for creating payloads.
-     * 
+     *
      * @type {GeneratorPayloadSource}
      */
     get payloadSource() {
@@ -25,15 +26,15 @@ export default class GeneratorBase {
     
     /**
      * Weak bindings of attached payload objects
-     * 
-     * @type {WeakMap<number, GeneratorPayload>
+     *
+     * @type {WeakMap<number, GeneratorPayload>}
      * @readonly
      */
     payloadStore = new WeakMap();
     
     /**
      * Payload counter.
-     * 
+     *
      * @type {number}
      * @readonly
      */

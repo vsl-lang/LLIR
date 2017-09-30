@@ -27,5 +27,11 @@ katexAutoRender.onload = function() { finishLoad = true; readyRender(); }
 document.addEventListener("DOMContentLoaded", function() { domLoaded = true; readyRender(); });
 
 function readyRender() {
-    if (finishLoad && domLoaded) renderMathInElement(document.body);
+    if (finishLoad && domLoaded) renderMathInElement(document.body, {
+        delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: false },
+            { left: "\\(", right: "\\)", display: false }
+        ]
+    });
 }

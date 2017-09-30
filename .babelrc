@@ -14,14 +14,12 @@
         ["babel-plugin-transform-runtime", {
             "polyfill": false
         }],
-        "babel-plugin-transform-class-properties",
-        "babel-plugin-transform-do-expressions",
-        "babel-plugin-transform-function-bind",
+        ["babel-plugin-transform-class-properties", { "loose": true }],
         "babel-plugin-transform-export-extensions",
-        "babel-plugin-transform-object-rest-spread"
+        "babel-plugin-transform-object-rest-spread",
+        "babel-plugin-transform-optional-chaining"
     ],
     "presets": [
-        "optimized",
         ["env", {
             "targets": {
                 "node": "4.8"

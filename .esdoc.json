@@ -1,40 +1,80 @@
 {
-    "title": "LLIR",
     "source": "./src",
     "destination": "docs",
-    "styles": ["misc/doc.css"],
-    "scripts": ["misc/doc.js"],
-    "excludes": ["^app", "^cli"],
-    "test": {
-        "type": "mocha",
-        "source": "./test",
-        "includes": ["\\.js$"]
-    },
+    "excludes": [ "^app", "^cli" ],
+    
     "plugins": [
         {
-          "name": "esdoc-babel-plugin",
-          "option": {
-            "plugins": [
-                "babel-plugin-syntax-do-expressions",
-                "babel-plugin-syntax-class-properties",
-                
-                "babel-plugin-transform-export-extensions",
-                "babel-plugin-transform-flow-strip-types",
-                "babel-plugin-transform-function-bind",
-                "babel-plugin-transform-class-properties",
-                "babel-plugin-transform-do-expressions"
-            ]
-          }
+            "name": "esdoc-babel-7-plugin",
+            "option": {
+                "plugins": [
+                    "babel-plugin-transform-flow-strip-types",
+                    "babel-plugin-transform-optional-chaining",
+                    "babel-plugin-transform-class-properties",
+                    "babel-plugin-transform-export-extensions"
+                ]
+            }
+        },
+        {
+            "name": "esdoc-standard-plugin",
+            "option": {
+                "coverage": {
+                    "enable": true
+                },
+                "accessor": {
+                    "access": ["public", "protected", "readonly"],
+                    "autoPrivate": true
+                },
+                "brand": {
+                    "title": "LLIR",
+                    "description": "LLIR is a modern optimizing compiler.",
+                    "repository": "https://github.com/vsl-lang/LLIR",
+                    "site": "https://staging.vihan.org/LLIR"
+                },
+                "test": {
+                    "source": "./test/",
+                    "includes": [ "\\.js$" ]
+                }
+            }
+        },
+        {
+            "name": "esdoc-ecmascript-proposal-plugin",
+            "option": {
+                "enable": true,
+                "classProperties": true,
+                "doExpressions": true,
+                "functionBind": true,
+                "functionSent": true,
+                "asyncGenerators": true,
+                "decorators": true,
+                "exportExtensions": true,
+                "dynamicImport": true
+            }
+        },
+        {
+            "name": "esdoc-inject-style-plugin",
+            "option": {
+                "enable": true,
+                "styles": [ "misc/doc.css" ]
+            }
+        },
+        {
+            "name": "esdoc-inject-script-plugin",
+            "option": {
+                "enable": true,
+                "scripts": [ "misc/doc.js" ]
+            }
+        },
+        {
+            "name": "esdoc-importpath-plugin",
+                "option": {
+                "replaces": [
+                    { "from": "^src/LLIR", "to": "LLIR" },
+                    { "from": "^src/Generator", "to": "Generator" },
+                    { "from": "^src", "to": "lib" },
+                    { "from": "\\.js$", "to": "" }
+                ]
+            }
         }
-    ],
-    "experimentalProposal": {
-        "classProperties": true,
-        "objectRestSpread": true,
-        "decorators": true,
-        "doExpressions": true,
-        "functionBind": true,
-        "asyncGenerators": true,
-        "exportExtensions": true,
-        "dynamicImport": true
-    }
+    ]
 }

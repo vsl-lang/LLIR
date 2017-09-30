@@ -1,3 +1,47 @@
+/**
+ * @typedef {Object} SerializationInfo
+ * @property {uint8[]} SIGNATURE - LLIR file signature
+ * @property {uint8} START_MASK - Mask to match the start of a start node's
+ *                               entry byte
+ * @property {uint8} GRAPH - Entry byte for a graph node
+ * @property {uint8} SUBGRAPH - Entry byte for a subgraph node
+ * @property {uint8} ATOMIC_GRAPH - Entry byte for an atomic graph node
+ * @property {uint8} BRANCH - Entry byte for a branch node
+ *
+ * @property {uint8} NODE - Entry byte for a node.
+ *
+ * @property {uint8} T_ENTRY - Node type for entry node
+ * @property {uint8} T_EXIT - Node type for exit node
+ * @property {uint8} T_RECURSION - Node type for recursion node
+ *
+ * @property {uint8} T_NOOP - Node type for a no-op node.
+ * @property {uint8} T_CHAIN - Node type for chain node
+ * @property {uint8} T_CONDITIONAL - Node type for conditional node
+ *
+ * @property {uint8} ID_FALLTHROUGH - Represents the id-tag for a fallthrough
+ *                                  spec on a data byte set.
+ * @property {uint8} ID_BRANCHES - Represents the id-tag for a branch spec on a
+ *                               data byte set.
+ * @property {uint8} ID_CONDITION - Represents the id-tag for a condition spec
+ *                               on a data byte set.
+ * @property {uint8} ID_EXPRESSION - Represents the id-tag for a expression spec
+ *                               on a data byte set.
+ * @property {uint8} DATA_01 - Delimits first data node.
+ * @property {uint8} DATA_02 - Delimits second data node.
+ * @property {uint8} DATA_03 - Delimits third data node.
+ * @property {uint8} DATA_04 - Delimits fourth data node.
+ * @property {uint8} DATA_05 - Delimits fifth data node.
+ *
+ * @property {uint8} TYPE_01 - Byte set type node for uint8
+ * @property {uint8} TYPE_04 - Byte set type node for uint32
+ * @property {uint8} TYPE_F1 - Byte set type node for matching START_MASK
+ * @property {uint8} TYPE_F2 - Byte set type node for matching START_MASK
+ * @property {uint8} TYPE_FE - Byte set in the form of [TYPE_F1, uint32 len,
+ *                           TYPE_F1 values]
+ * @property {uint8} TYPE_FF - null-delimited string
+ *
+ * @property {uint8} EXIT - Represents the closing of a byte set.
+ */
 export default {
     SIGNATURE: [0x4C, 0x4C, 0x49, 0x52, 0x0A],
     
@@ -14,13 +58,14 @@ export default {
     T_EXIT: 0x22,
     T_RECURSION: 0x23,
     
-    T_CONDITIONAL: 0x2A,
+    T_NOOP: 0x2A,
     T_CHAIN: 0x2B,
+    T_CONDITIONAL: 0x2C,
     
     ID_FALLTHROUGH: 0xD0,
-    ID_BRANHCHES: 0xD1,
-    ID_CONDITiON: 0xDA,
-    ID_EXPRESsION: 0xDB,
+    ID_BRANCHES: 0xD1,
+    ID_CONDITION: 0xDA,
+    ID_EXPRESSION: 0xDB,
     
     PAYLOAD_01: 0xA0,
     

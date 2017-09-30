@@ -1,8 +1,8 @@
-import { Entry, Exit, Recursion } from '@/ExecutionGraph/Node/Nodes/*';
+import { Entry, Exit, Recursion, NoOp } from '@/ExecutionGraph/Node/Nodes/*';
 import i from '@/Serializer/SerializationInfo';
 
 /**
- * Represents a simple $\rho\left\{F_1, F_2, \dots, F_n\right\}$ graph. This is
+ * Represents a simple \\[\rho\left\\{F_1, F_2, \ldots, F_n\right\\}\\] graph. This is
  * used internally and should not be directly created.
  */
 export default class AtomicGraph {
@@ -38,8 +38,10 @@ export default class AtomicGraph {
         this.exit = new Exit();
         
         /** @private */
-        this.node = null;
+        this.node = new NoOp();
+        this.node.setPlaceholder(true);
         
+        this.notifyNewNode(this.node);
         this.notifyNewNode(this.entry);
         this.notifyNewNode(this.exit);
         this.notifyNewNode(this.recursionEntry);
@@ -101,7 +103,10 @@ export default class AtomicGraph {
      * @return {boolean} true if succesful, false if not
      */
     setAtom(node) {
-        if (this.node !== null) return false;
+        if (this.node !== null && !(
+                this.node instanceof NoOp && this.node.placeholder
+            )
+        ) return false;
         this.node = node;
         return this.notifyNewNode(this.node);
     }
@@ -120,7 +125,7 @@ export default class AtomicGraph {
      * @return {string} debuggable string
      */
     toString() {
-        return `${this.entry} -> ${this.node} -> ${this.exit}`;
+        return `\u001B[32mp\u001B[0m${this.node}`;
     }
     
     /**

@@ -4,8 +4,13 @@ import i from '@/Serializer/SerializationInfo';
 /**
  * Chains or composes two functions. Manages independent successive
  * AtomicGraphs.
+ *
+ * @implements {IndexableNode}
+ * @extends Node
  */
 export default class Chain extends Node {
+    static _ssi = 1;
+    
     /** @override */
     init() {
         this.interactor = null;
@@ -19,7 +24,7 @@ export default class Chain extends Node {
      * @return {string} debuggable string
      */
     toString() {
-        return `[ ${this.chainOrder.join(", ")} ]`;
+        return `\u001B[1;36m[\u001B[0m ${this.chainOrder.join(", ")} \u001B[1;36m]\u001B[0m`;
     }
     
     /**
@@ -30,5 +35,10 @@ export default class Chain extends Node {
         serializer.writeOne(i.NODE);
         serializer.writeOne(i.T_CHAIN);
         serializer.writeOne(i.EXIT);
+    }
+    
+    /** @override */
+    *atomicGraphs() {
+        yield* this.chainOrder;
     }
 }

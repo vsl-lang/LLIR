@@ -6,6 +6,9 @@ import i from '@/Serializer/SerializationInfo';
  * Deserializes a packed LLIR binary (from {@link Serialize} or rel. classes).
  */
 export default class Deserialize {
+    /**
+     * Creates new empty deserializer
+     */
     constructor() {
         /** @private */
         this.obj = null;

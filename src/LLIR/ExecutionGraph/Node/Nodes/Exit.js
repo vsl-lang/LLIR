@@ -2,11 +2,13 @@ import Node from '@/ExecutionGraph/Node/Node';
 import i from '@/Serializer/SerializationInfo';
 
 /**
- * Represents an Exit ($E_x$) node of an execution graph. This is a transparent
+ * Represents an Exit (\\[E_x\\]) node of an execution graph. This is a transparent
  * node which interfaces with a {@link PayloadInteractor} and the
  * {@link ExecutionGraph} to watch payload changes and ensure exit merging for
  * similar domains. Graph overlap is a more complex topic which should not break
  * symmetry which is described in the LLIR paper.
+ *
+ * @extends Node
  */
 export default class Exit extends Node {
     /** @override */
@@ -30,7 +32,7 @@ export default class Exit extends Node {
      * @return {string} debuggable string
      */
     toString() {
-        return `Exit`;
+        return `\u001B[1mExit\u001B[0m`;
     }
     
     /**

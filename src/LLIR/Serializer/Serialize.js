@@ -6,8 +6,9 @@ import i from '@/Serializer/SerializationInfo';
  * Serializes a static execution graph.
  */
 export default class Serialize {
-    
-    
+    /**
+     * New empty serializer
+     */
     constructor() {
         /** @private */
         this.pos = 0;
@@ -29,7 +30,7 @@ export default class Serialize {
     
     /**
      * Writes one byte to output
-     * 
+     *
      * @param {number} byte - positive integer < 256
      */
     writeOne(byte) {
@@ -41,8 +42,8 @@ export default class Serialize {
     
     /**
      * Writes a 32-bit unsigned integer to output.
-     * 
-     * @param {number} num - positive integer < 2^32
+     *
+     * @param {number} int - positive integer < 2^32
      */
     writeInt(int) {
         while (this.buffer.length <= this.pos + 4) this.resize();
@@ -53,7 +54,7 @@ export default class Serialize {
     
     /**
      * Writes an array of bytes
-     * 
+     *
      * @param {number[]} bytes - array of uint8s
      */
     write(bytes) {

@@ -28,6 +28,6 @@ export default class Branch {
      * @return {string} debuggable string
      */
     toString() {
-        return `${this.condition} (na%; ${this.graph})`;
+        return `${this.condition} \u001B[1;36m:\u001B[0m ${this.graph}`;
     }
 }

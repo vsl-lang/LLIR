@@ -9,8 +9,13 @@ import i from '@/Serializer/SerializationInfo';
  * primitive as defined in Conditional Branching. This has a
  * {@link PayloadInteractor} object and offers a {@link ConditionalAnalysis}
  * for the branches given provided payload.
+ *
+ * @implements {IndexableNode}
+ * @extends Node
  */
 export default class Conditional extends Node {
+    static _ssi = 1;
+    
     /** @override */
     init() {
         this.interactor = null;
@@ -80,7 +85,17 @@ export default class Conditional extends Node {
      * @return {string} debuggable string
      */
     toString() {
-        return `{ ${[...this.branches, this.fallthrough].join(", ")} }`;
+        return `\u001B[1;36m{\u001B[0m ${[...this.branches, this.fallthrough].join("\u001B[1;36m,\u001B[0m ")} \u001B[1;36m}\u001B[0m`;
+    }
+    
+    /** @override */
+    *atomicGraphs() {
+        for (let branch of this.branches) {
+            yield branch.condition;
+            yield branch.graph;
+        }
+        
+        yield this.fallthrough;
     }
     
     /**
