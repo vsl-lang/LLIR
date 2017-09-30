@@ -3,16 +3,17 @@ import Generator, { Options } from '@/Generator/Generator';
 import { StreamChurn } from '@/Generator/Churn/*';
 
 let graph = new ExecutionGraph();
+let generator = new Generator.LL();
+
+graph.make.setPayloadSource(generator.payloadSource.sourceEmitter);
 
 let conditional = graph.make.conditional()
 let branch = conditional.branch(
-    condition
+    conditional
 );
 
 graph.main.body.setAtom(conditional);
 
-let generator = graph.generateWith( new Generator.LL())
-let stream = new StreamChurn(
-generator.churn( stream )
-
-fs.createWriteStream();
+let generatorInstance = graph.generateWith( generator )
+let stream = new StreamChurn();
+generatorInstance.churn( stream )

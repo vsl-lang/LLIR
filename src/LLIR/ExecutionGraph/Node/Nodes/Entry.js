@@ -1,4 +1,5 @@
 import Node from '@/ExecutionGraph/Node/Node';
+import i from '@/Serializer/SerializationInfo';
 
 /**
  * Represents an entry ($S$) node of an execution graph. This has implicit
@@ -26,5 +27,15 @@ export default class Entry extends Node {
      */
     toString() {
         return `Start`;
+    }
+    
+    /**
+     * Serializes
+     * @param {Serialize} serializer - serializer
+     */
+    serialize(serializer) {
+        serializer.writeOne(i.NODE);
+        serializer.writeOne(i.T_ENTRY);
+        serializer.writeOne(i.EXIT);
     }
 }

@@ -1,6 +1,8 @@
 import GraphBuilder from '@/ExecutionGraph/GraphBuilder';
 import Subgraph from '@/ExecutionGraph/Subgraph';
 
+import i from '@/Serializer/SerializationInfo';
+
 // Default store (MemoryStore)
 import { MemoryStore } from '@/ExecutionGraph/Store/*';
 
@@ -32,5 +34,15 @@ export default class ExecutionGraph {
      */
     toString() {
         return `${this.entry} -> ${this.node} -> ${this.exit}`;
+    }
+    
+    /**
+     * Serializes
+     * @param {Serialize} serializer - serializer
+     */
+    serialize(serializer) {
+        serializer.writeOne(i.GRAPH);
+        this.main.serialize(serializer, 0x00);
+        serializer.writeOne(i.EXIT);
     }
 }

@@ -1,4 +1,5 @@
 import { Entry, Exit, Recursion } from '@/ExecutionGraph/Node/Nodes/*';
+import i from '@/Serializer/SerializationInfo';
 
 /**
  * Represents a simple $\rho\left\{F_1, F_2, \dots, F_n\right\}$ graph. This is
@@ -120,5 +121,24 @@ export default class AtomicGraph {
      */
     toString() {
         return `${this.entry} -> ${this.node} -> ${this.exit}`;
+    }
+    
+    /**
+     * Serializes
+     * @param {Serialize} serializer - serializer
+     */
+    serialize(serializer) {
+        let atom = this.node;
+         
+        if (atom !== null) {
+            serializer.writeOne(i.ATOMIC_GRAPH);
+            
+            this.entry.serialize(serializer);
+            atom.serialize(serializer);
+            this.exit.serialize(serializer);
+            this.recursionEntry.serialize(serializer);
+            
+            serializer.writeOne(i.EXIT);
+        }
     }
 }

@@ -36,7 +36,7 @@ instance.context.serialize = (file_name) => {
     if (!file_name) return 'no file name';
     
     let serializer = new Serialize()
-    serializer.serializeGraph(graph);
+    graph.serialize(serializer);
     
     let fd = fs.openSync(file_name, 'w');
     fs.writeSync(fd, serializer.buffer, 0, serializer.pos, 0);

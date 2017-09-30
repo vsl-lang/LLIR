@@ -1,4 +1,5 @@
 import Node from '@/ExecutionGraph/Node/Node';
+import i from '@/Serializer/SerializationInfo';
 
 /**
  * This is the recursion entry point that is ignored for typical translation
@@ -45,4 +46,14 @@ export default class Recursion extends Node {
          }
          return -1;
      }
+    
+    /**
+     * Serializes
+     * @param {Serialize} serializer - serializer
+     */
+    serialize(serializer) {
+        serializer.writeOne(i.NODE);
+        serializer.writeOne(i.T_RECURSION);
+        serializer.writeOne(i.EXIT);
+    }
 }

@@ -7,6 +7,19 @@ export default class GraphBuilder {
     constructor(executionGraph) {
         /** @private */
         this.graph = executionGraph;
+        
+        /** @private */
+        this.payloadMake = null;
+    }
+    
+    /**
+     * Sets a default payload generator for a node.
+     * 
+     * @param {func(node: Node): any} payloadSource - function returning payload
+     * for a node.
+     */
+    setPayloadSource(payloadSource) {
+        this.payloadMake = payloadSource;
     }
     
     /**
@@ -28,6 +41,13 @@ export default class GraphBuilder {
             let result = branch.setFromGraph(branches.setSubgraph)
         }
         
+        this.finishNode(conditional);
         return conditional;
+    }
+    
+    /** @private */
+    finishNode(node) {
+        if (this.payloadMake !== null) return;
+        node.setInitialPaylaod(this.payloadMake(node));
     }
 }

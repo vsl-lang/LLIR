@@ -137,4 +137,26 @@ export default class Node {
     getPayloadOwner() {
         return this;
     }
+    
+    /**
+     * Sets a node's inital payload. Can only be set if there is no existing
+     * payload. In that case payload must be disowned.
+     * 
+     * @param {Object} payload - payload to set
+     * @return {boolean} `true` if set, `false` if not.
+     */
+    setInitialPayload(payload) {
+        if (this.payload !== null) return false;
+        this.payload = payload;
+        return true;
+    }
+    
+    /**
+     * Serializes
+     * @param {Serialize} serializer - serializer
+     */
+    serialize(serializer) {
+        throw new TypeError(`abstract node found in graph`);
+    }
+    
 }

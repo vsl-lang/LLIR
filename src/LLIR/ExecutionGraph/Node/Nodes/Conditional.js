@@ -1,6 +1,7 @@
 import Node from '@/ExecutionGraph/Node/Node';
 import Branch from '@/ExecutionGraph/Branch';
 import AtomicGraph from '@/ExecutionGraph/AtomicGraph';
+import i from '@/Serializer/SerializationInfo';
 
 /**
  * Conditinal intrinsic. You can specify various fallthrough contrasts which
@@ -80,5 +81,15 @@ export default class Conditional extends Node {
      */
     toString() {
         return `{ ${[...this.branches, this.fallthrough].join(", ")} }`;
+    }
+    
+    /**
+     * Serializes
+     * @param {Serialize} serializer - serializer
+     */
+    serialize(serializer) {
+        serializer.writeOne(i.NODE);
+        serializer.writeOne(i.T_CONDITIONAL);
+        serializer.writeOne(i.EXIT);
     }
 }

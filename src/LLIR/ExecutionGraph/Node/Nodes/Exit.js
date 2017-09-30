@@ -1,4 +1,5 @@
 import Node from '@/ExecutionGraph/Node/Node';
+import i from '@/Serializer/SerializationInfo';
 
 /**
  * Represents an Exit ($E_x$) node of an execution graph. This is a transparent
@@ -30,5 +31,18 @@ export default class Exit extends Node {
      */
     toString() {
         return `Exit`;
+    }
+    
+    /**
+     * Serializes
+     * @param {Serialize} serializer - serializer
+     */
+    serialize(serializer) {
+        serializer.writeOne(i.NODE);
+        serializer.writeOne(i.T_EXIT);
+        serializer.writeOne(i.DATA_01);
+        serializer.writeOne(i.TYPE_04);
+        serializer.writeInt(this.depth);
+        serializer.writeOne(i.EXIT);
     }
 }
