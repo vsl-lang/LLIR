@@ -18,18 +18,18 @@ import OffsetType from '@/Offset/OffsetType';
 export default {
     identity: new OffsetType(
         (f, g) => x => x,
-        'x > > x'
+        'x > > x', 'id'
     ),
     prevoid: new OffsetType(
         x => (f, g) => g(x),
-        ', g > g'
+        ', g > g', 'pre'
     ),
     postvoid: new OffsetType(
         (f, g) => x => f(x),
-        'f > f'
+        'f > f', 'post'
     ),
     transform: new OffsetType(
         (f, g) => x => f(g(x)),
-        'f, g > x > f + g'
+        'f, g > x > f + g', 't'
     )
 };

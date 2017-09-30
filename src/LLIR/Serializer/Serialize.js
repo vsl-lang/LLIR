@@ -41,6 +41,30 @@ export default class Serialize {
     }
     
     /**
+     * Wriets a string to output
+     * @param {String} str - string
+     */
+    writeString(str) {
+        let totalLen = this.buffer.length + str.length;
+        while (this.bufferLen < totalLen) this.resize();
+        
+        this.buffer.writeString(str, this.pos, 'utf-8')
+        this.pos += str.length;
+    }
+    
+    /**
+     * Wriets a buffer to output
+     * @param {Buffer} buf - buffer
+     */
+    writeBuffer(buf) {
+        let totalLen = this.buffer.length + buf.length;
+        while (this.bufferLen < totalLen) this.resize();
+        
+        buf.copy(this.buffer, this.pos);
+        this.pos += buf.length;
+    }
+    
+    /**
      * Writes a 32-bit unsigned integer to output.
      *
      * @param {number} int - positive integer < 2^32

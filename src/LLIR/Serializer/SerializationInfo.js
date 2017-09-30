@@ -18,6 +18,11 @@
  * @property {uint8} T_CHAIN - Node type for chain node
  * @property {uint8} T_CONDITIONAL - Node type for conditional node
  *
+ * @property {uint8} T_UNK Unknown node type falls back to {@link Node}
+ * @property {uint8} T_UDT follow by a null-delimited string specifying the type
+ *                         of the node to deserialize. By default {@link Node}
+ *                         uses this with `static uidname`
+ *
  * @property {uint8} ID_FALLTHROUGH - Represents the id-tag for a fallthrough
  *                                  spec on a data byte set.
  * @property {uint8} ID_BRANCHES - Represents the id-tag for a branch spec on a
@@ -26,6 +31,9 @@
  *                               on a data byte set.
  * @property {uint8} ID_EXPRESSION - Represents the id-tag for a expression spec
  *                               on a data byte set.
+ * @property {uint8} ID_UDI - User-defined id-tag for an expression spec. Follow
+ *                          by type then a null-delimited string for id.
+ *
  * @property {uint8} DATA_01 - Delimits first data node.
  * @property {uint8} DATA_02 - Delimits second data node.
  * @property {uint8} DATA_03 - Delimits third data node.
@@ -62,10 +70,13 @@ export default {
     T_CHAIN: 0x2B,
     T_CONDITIONAL: 0x2C,
     
+    T_UDT: 0x2F,
+    
     ID_FALLTHROUGH: 0xD0,
     ID_BRANCHES: 0xD1,
     ID_CONDITION: 0xDA,
     ID_EXPRESSION: 0xDB,
+    ID_UDI: 0xDF,
     
     PAYLOAD_01: 0xA0,
     

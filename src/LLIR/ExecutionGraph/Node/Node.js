@@ -1,3 +1,5 @@
+import i from '@/Serializer/SerializationInfo';
+
 /**
  * A primitive graph node representing some form of behavior. All nodes interact
  * and connect to their parent `AtomicGraph`s. Not all nodes have a
@@ -141,7 +143,7 @@ export default class Node {
     /**
      * Sets a node's inital payload. Can only be set if there is no existing
      * payload. In that case payload must be disowned.
-     * 
+     *
      * @param {Object} payload - payload to set
      * @return {boolean} `true` if set, `false` if not.
      */
@@ -156,7 +158,25 @@ export default class Node {
      * @param {Serialize} serializer - serializer
      */
     serialize(serializer) {
-        throw new TypeError(`abstract node found in graph`);
+        let uidname = this.constructor.uidname;
+        
+        serializer.writeOne(i.NODE);
+        if (uidname) {
+            serializer.writeOne(i.T_UDT);
+            serializer.writeString('utf-8');
+        } else {
+            serializer.writeOne(i.T_UNK);
+        }
+        this.serializeNode(serializer);
+        serializer.writeOne(i.EXIT);
     }
+    
+    /**
+     * Only override if you do not override serialize. This runs additional
+     * serialization data (i.e. adds data packets)
+     * @param {Serializer} serializer - serializer
+     * @abstract
+     */
+    serializeNode(serializer) { return void 0 }
     
 }
