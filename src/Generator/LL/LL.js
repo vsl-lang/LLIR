@@ -5,7 +5,7 @@ import GeneratorBase from '~/Generator/GeneratorBase';
  * resolution for optimization (i.e. will use a global program state) for branch
  * tracking.
  *
- * @extends GeneratorBase
+ * @extends {GeneratorBase}
  */
 export default class LL extends GeneratorBase {
     static instanceId = 'llir.ll';

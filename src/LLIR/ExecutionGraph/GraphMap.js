@@ -28,13 +28,30 @@ export default class GraphMap {
     constructor(graph) {
         this._graph = graph;
         this._stateStack = [
-            new MapState(graph.main.body.getAtom()),
+            this.makeState(graph.main.body.getAtom()),
             null
         ];
     }
     
     get _topState() {
         return this._stateStack[0];
+    }
+    
+    /**
+     * Creates a new {@link MapState} (or a subclass) for this GraphMap. Take a
+     * look at {@link MapState}'s documentation for more information on how to
+     * subclass it. If you are subclassing it, you want to override this to
+     * create your new map
+     *
+     * @param {Node} node - The tracking node
+     * @param {?IndexingInstance} instance - If you already have a correct
+     *                                     IndexingInstance you can pass this
+     *                                     but that is optional.
+     * @return {MapState} a new state.
+     * @protected
+     */
+    makeState(node, instance) {
+        return new MapState(node, instance);
     }
     
     /**
@@ -58,10 +75,8 @@ export default class GraphMap {
         // Let's get the atom of this object
         let state = this._topState;
         
-        if (state.indexingInstance === null) {
-            // Try to see if we can setup indexing
-            if (!state.setupIndexingInstance()) return null;
-        }
+        // Ensure that we have setup the indexing instance.
+        if (!state.setupIndexingInstance()) return null;
         
         let { done, value: nextNode } = state.indexingInstance.next();
         if (done === true) return null;
@@ -90,7 +105,7 @@ export default class GraphMap {
             if (done === true) return EntryStatus.EMPTY;
             
             // Otherwise enter w/ EntryNode
-            let newState = new MapState(
+            let newState = this.makeState(
                 entryGraph.getAtom(),
                 iterator
             );

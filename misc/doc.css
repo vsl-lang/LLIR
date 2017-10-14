@@ -171,9 +171,9 @@ table.params td[data-ice=type], table.params td[data-ice=name] {
     font-size: 0.9em;
 }
 
-.header-notice span {
+/*.header-notice span {
     display: none;
-}
+}*/
 
 .navigation li span[data-ice=name] {
     padding-left: 4px;
@@ -251,4 +251,8 @@ hr {
     line-height: 1.5em;
     margin-right: 5px;
     color: #82acdd;
+}
+
+.import-path .pun + .typ {
+    margin: 0 0.5em;
 }

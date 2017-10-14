@@ -6,7 +6,13 @@ import NodeProfiler from '@/ExecutionGraph/Node/NodeProfiler';
  */
 
 /**
- * Represents the state of a {@link GraphMap} at a single dimension.
+ * Represents the state of a {@link GraphMap} at a single dimension. This
+ * means it won't manage children but can iterate through things such as chains.
+ *
+ * ### Subclassing
+ * To subclass do not override the constructor. Also in the {@link GraphMap}
+ * you may want to subclass that to change {@link GraphMap#makeState} to work
+ * with your subclass.
  */
 export default class MapState {
     /**
@@ -58,7 +64,7 @@ export default class MapState {
      * @return {boolean} `true` if succesful, `false` otherwise.
      */
     setupIndexingInstance() {
-        if (this.indexingInstance) return false;
+        if (this.indexingInstance) return true;
         
         // We need to check if the parent (node)
         let parent = this.getAtomicParent?.(1)?.getAtom();
