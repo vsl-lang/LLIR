@@ -28,8 +28,7 @@ export default class GraphMap {
     constructor(graph) {
         this._graph = graph;
         this._stateStack = [
-            this.makeState(graph.main.body.getAtom()),
-            null
+            this.makeState(graph.main.body.getAtom())
         ];
     }
     
@@ -68,7 +67,7 @@ export default class GraphMap {
      * `p(B -> C)`, then `pD`
      * {@link GraphMap#nextAtom} to get nodes only in form `pX`
      *
-     * @return {?Node} This returns the resulting node matched if exists. It may
+     * @return {?Cursor} This returns the resulting node matched if exists. It may
      *                 or may not be a subgraph ref. `null` if does not exist.
      */
     next() {

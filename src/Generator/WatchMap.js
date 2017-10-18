@@ -40,8 +40,21 @@ export default class WatchMap extends GraphMap {
         return state;
     }
     
+    _delegate = null;
+    
+    /**
+     * Sets the WatchStateDelegate for the WatchMap
+     * @param {WatchStateDelegate} delegate - The delegate
+     * @return {boolean} if the delegate could be sent.
+     */
+    setDelegate(delegate) {
+        if (this._delegate !== null) return false;
+        this._delegate = delegate;
+        return true;
+    }
+    
     /** @override */
     interact(node) {
-        
+        this._delegate.interact(node);
     }
 }

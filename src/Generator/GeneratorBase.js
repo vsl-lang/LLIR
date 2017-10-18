@@ -1,7 +1,9 @@
 import GeneratorPayloadSource from '~/Generator/Payload/GeneratorPayloadSource';
+import WatchMap from '~/Generator/WatchMap';
 
 /**
  * Manager class for a generator instance
+ * @implements {WatchStateDelegate}
  * @abstract
  */
 export default class GeneratorBase {
@@ -20,6 +22,46 @@ export default class GeneratorBase {
         return this._payloadSource ||
             (this._payloadSource = new GeneratorPayloadSource(this));
     }
+    
+    /**
+     * This takes a node and begins its generation. You can track state by
+     * interacting with the `state` WatchMap. This is called on each context
+     * shift.
+     *
+     * @param {Node} node the inital node for the generator
+     * @param {WatchMap} state Map for navigation of state.
+     * @protected
+     * @abstract
+     */
+    generate(node, state) { void 0; }
+    
+    /**
+     * Called before interaction (or a context shift) to a new node.
+     * @param {Node} node The node (not graph) of the context being shifted to.
+     */
+    interact(node) {
+        this.generate(node, this.state);
+    }
+    
+    /**
+     * Can only call once, sets the {@link ExecutionGraph} for the generator.
+     * This **will** begin generation immediately.
+     *
+     * @param {executionGraph} executionGraph - Execution graph to set.
+     * @return {boolean} `true` if set, `false` if not (already set).
+     */
+    setGraph(executionGraph) {
+        if (this._state !== null) return false;
+        this._state = new WatchMap(executionGraph);
+        this._state.setDelegate(this);
+        
+        this.interact(this._state.getCursor());
+        
+        return true;
+    }
+    
+    /** @private */
+    _state = null;
     
     /** @private */
     _payloadSource = null;

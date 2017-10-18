@@ -1,4 +1,4 @@
-import GraphMap from '@/ExecutionGraph/MapState';
+import MapState from '@/ExecutionGraph/MapState';
 
 /**
  * A {@link WatchMap}'s state. This has some tools which allow it to notify
@@ -6,7 +6,7 @@ import GraphMap from '@/ExecutionGraph/MapState';
  *
  * @extends {MapState}
  */
-export default class WatchState extends GraphMap {
+export default class WatchState extends MapState {
     _parentMap = null;
     
     /**

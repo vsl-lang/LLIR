@@ -1,7 +1,7 @@
 /**
  * The implementation for a {@link WatchState}'s parent.
  *
- * @extends {WatchMap}
+ * @extends {GraphMap}
  * @interface
  */
 export default class WatchStateDelegate {

@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/vsl-lang/LLIR#readme",
   "dependencies": {
-    "babel-runtime": "^7.0.0-beta.2"
+    "babel-runtime": "^7.0.0-beta.2",
+    "llvm-node": "^2.0.4"
   },
   "devDependencies": {
     "babel-cli": "^7.0.0-beta.2",
