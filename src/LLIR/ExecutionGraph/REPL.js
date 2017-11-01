@@ -32,7 +32,7 @@ function evaluate(cmd, context, filename, callback) {
         showHidden: false
     }) + '\n';
     
-    let head = '\u001B[1mGraph:\u001B[0m ' + graph.main.body.toString();
+    let head = '\u001B[1mGraph:\u001B[0m ' + graph.main.getBody().toString();
     
     let cursorEnd = "";
     if (res instanceof Cursor) {
@@ -58,7 +58,7 @@ instance.context.setPreset = (num) => {
     [
         () => {
             let c = graph.make.conditional();
-            graph.main.body.setAtom(c);
+            graph.main.getBody().setAtom(c);
             let a = new AtomicGraph();
             let b1 = c.branch(a);
             c.globalConstraint.recursionEntry.setRecursionDepth(1)

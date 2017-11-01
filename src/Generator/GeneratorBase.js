@@ -24,23 +24,24 @@ export default class GeneratorBase {
     }
     
     /**
-     * This takes a node and begins its generation. You can track state by
+     * This takes a node and generates it. You can track state by
      * interacting with the `state` WatchMap. This is called on each context
      * shift.
      *
-     * @param {Node} node the inital node for the generator
+     * @param {Cursor} cursor the inital cursor for the generator
      * @param {WatchMap} state Map for navigation of state.
      * @protected
      * @abstract
      */
-    generate(node, state) { void 0; }
+    generate(cursor, state) { void 0; }
     
     /**
      * Called before interaction (or a context shift) to a new node.
-     * @param {Node} node The node (not graph) of the context being shifted to.
+     * @param {Cursor} cursor The node (not graph) of the context being shifted
+     *                        to.
      */
-    interact(node) {
-        this.generate(node, this.state);
+    interact(cursor) {
+        this.generate(cursor, this.state);
     }
     
     /**

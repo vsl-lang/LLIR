@@ -7,6 +7,8 @@ import Offset from '@/Offset/Offset';
  * based placed as a {@link MultiValue} so their contents can be tracked too but
  * that is optional. Additionally you may want to describe how to collapse
  * certain values so they can be optimized.
+ *
+ * @extends {DirectMap}
  */
 export default class Value extends DirectMap {
     static uidname = 'llir.atom.value';

@@ -4,12 +4,36 @@
  */
 export default class Cursor {
     /**
-     * Creates a cursor. Generally `value` is a node but you can pass whatever
-     * you like to it;
-     * @param  {Object} value Any objcet to wrap
+     * Creates a cursor to a graph node.
+     * @param {Node} node Node to wrap
+     * @protected
      */
     constructor(value) {
         this._value = value;
+    }
+    
+    /**
+     * Returns the wrapped node
+     * @return {Node} unwrapped node
+     */
+    getNode() {
+        return this._value;
+    }
+    
+    /**
+     * Gets the containing subgraph
+     * @type {?Subgraph}
+     */
+    getSubgraph() {
+        return this._value.getImmediateAtomicParent()?.getSuperSubgraph();
+    }
+    
+    /**
+     * Gets the containing execution graph.
+     * @return {?ExecutionGraph}
+     */
+    getExecutionGraph() {
+        return this.getSubgraph()?.getExecutionGraph();
     }
     
     toString() {

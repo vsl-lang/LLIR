@@ -28,7 +28,7 @@ export default class GraphMap {
     constructor(graph) {
         this._graph = graph;
         this._stateStack = [
-            this.makeState(graph.main.body.getAtom())
+            this.makeState(graph.main.getBody().getAtom())
         ];
     }
     

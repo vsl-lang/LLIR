@@ -11,7 +11,14 @@
                     "babel-plugin-transform-flow-strip-types",
                     "babel-plugin-transform-optional-chaining",
                     ["babel-plugin-transform-class-properties", { "loose": true }],
-                    "babel-plugin-transform-export-extensions"
+                    "babel-plugin-transform-export-extensions",
+                    ["babel-plugin-root-import", [{
+                        "rootPathPrefix": "~",
+                        "rootPathSuffix": "src/"
+                    }, {
+                        "rootPathPrefix": "@",
+                        "rootPathSuffix": "src/LLIR"
+                    }]]
                 ]
             }
         },

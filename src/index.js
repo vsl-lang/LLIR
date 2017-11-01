@@ -1,3 +1,4 @@
+import * as TGenerator from './Generator';
 // Alias for LLIR
-export * as LLIR from "./LLIR";
-export * as Solver from "./Solver";
+export LLIR from "./LLIR/LLIR";
+export Generator from "./Generator/Generator";

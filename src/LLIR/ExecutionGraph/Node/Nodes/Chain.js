@@ -1,4 +1,5 @@
 import Node from '@/ExecutionGraph/Node/Node';
+import AtomicGraph from '@/ExecutionGraph/AtomicGraph';
 import i from '@/Serializer/SerializationInfo';
 
 /**
@@ -11,12 +12,43 @@ import i from '@/Serializer/SerializationInfo';
 export default class Chain extends Node {
     static _ssi = 1;
     
+    constructor() { super() }
+    
     /** @override */
     init() {
         this.interactor = null;
         
         /** @private */
         this.chainOrder = [];
+        
+        /**
+         * The global constraint (linkned to the chain's parent) which all
+         * subchains are connected to.
+         * @type {AtomicGraph}
+         */
+        this.globalConstraint = new AtomicGraph();
+    }
+    
+    /**
+     * Pushes a subgraph to the end of the execution order.
+     * @param {AtomicGraph} graph - Atomic graph to append to chain.
+     */
+    pushEventGraph(graph) {
+        this.chainOrder.push(graph);
+        graph.setSupergraph(this.globalConstraint);
+    }
+    
+    /** @private */
+    didSetAtomicParent() {
+        let atomicParent = this.getImmediateAtomicParent();
+        if (atomicParent !== null) {
+            this.globalConstraint.setSupergraph(atomicParent);
+        }
+    }
+    
+    /** @override */
+    *atomicGraphs() {
+        yield* this.chainOrder;
     }
     
     /**
@@ -35,10 +67,5 @@ export default class Chain extends Node {
         serializer.writeOne(i.NODE);
         serializer.writeOne(i.T_CHAIN);
         serializer.writeOne(i.EXIT);
-    }
-    
-    /** @override */
-    *atomicGraphs() {
-        yield* this.chainOrder;
     }
 }

@@ -18,15 +18,28 @@ export default class ExecutionGraph {
         /** @private */
         this.store = new store();
         
-        /** @private */
+        /**
+         * Primary subgraph
+         * @type {Subgraph}
+         * @readonly
+         */
         this.main = new Subgraph(this);
+        
+        /**
+         * Set of all subgraphs. See the {@link Subgraph} for more information.
+         * Do not directly interface with this
+         *
+         * @type {Set<Subgraph>}
+         * @readonly
+         */
+        this.subgraphs = new Set();
+        
+        /**
+         * The helper-utility for creating graph nodes.
+         * @type {GraphBuilder}
+         */
+        this.make = new GraphBuilder(this);
     }
-    
-    /**
-     * The helper-utility for creating graph nodes.
-     * @type {GraphBuilder}
-     */
-    make = new GraphBuilder(this);
     
     /**
      * Converts to string representation
@@ -42,7 +55,13 @@ export default class ExecutionGraph {
      */
     serialize(serializer) {
         serializer.writeOne(i.GRAPH);
-        this.main.serialize(serializer, 0x00);
+        
+        let subgraphIndex = 0;
+        this.main.serialize(serializer, subgraphIndex++);
+        for (let subgraph of tihs.subgraphs) {
+            subgraph.serialize(serializer, subgraphIndex++);
+        }
+        
         serializer.writeOne(i.EXIT);
     }
 }

@@ -1,14 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+code, p > code, li > code, .code, .access, pre.prettyprint, pre code.prettyprint, pre > code, table.summary tbody td > div:nth-child(1) {
+    font-family: Menlo, "Roboto Mono", Consolas, monospace;
+}
+
 p > code, li > code {
-    font-family: Menlo, Consolas, monospace;
     border-radius: 2px;
     font-size: 0.85em;
     background: #f8f8f8;
 }
 
-.code {
-    font-family: Menlo, Consolas, monospace;
-    font-size: 14px;
-}
+.code { font-size: 14px; }
 
 p {
     font-size: 17px;
@@ -61,7 +63,6 @@ h3 {
 }
 
 .access {
-    font-family: Menlo, Consolas, monospace;
     font-size: 14px;
     line-height: 1.6em;
     font-weight: bold;
@@ -71,7 +72,6 @@ pre.prettyprint, pre code.prettyprint, pre > code {
     background: #F9F9F9;
     font-size: 14px;
     
-    font-family: Menlo, Consolas, monospace;
     line-height: 20px;
 }
 
@@ -90,10 +90,36 @@ pre.source-code {
     background: #f7f7f7;
 }
 
+.description table {
+    margin-bottom: 1.5em;
+    background: #fcfcfc;
+}
+
+.description thead {
+    background: none;
+}
+
+.description thead th {
+    border: none;
+    color: black;
+    font-size: 1.3em;
+    font-weight: 300;
+    padding: 0.5em 0;
+}
+
+.description tbody td {
+    border-left: none;
+    border-right: none;
+    padding: 0.8em 1em;
+}
+
+.description tbody tr:last-child td {
+    border-bottom: none;
+}
+
 table.summary thead {
     background: none;
     color: black;
-    
 }
 
 table.summary thead td {
@@ -116,7 +142,6 @@ table.summary tbody td:nth-child(1) {
 
 table.summary tbody td > div:nth-child(1) {
     color: #666;
-    font-family: Menlo, Consolas, monospace;
     font-size: 1em;
 }
 

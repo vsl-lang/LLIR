@@ -1,3 +1,4 @@
+import SubgraphType from '@/ExecutionGraph/SubgraphType';
 import AtomicGraph from '@/ExecutionGraph/AtomicGraph';
 import i from '@/Serializer/SerializationInfo';
 
@@ -5,21 +6,33 @@ import i from '@/Serializer/SerializationInfo';
  * Represents a connected (or disconnected) subgraph. Be careful when manually
  * constructing a subgraph as they have independently managed and resolved
  * domain and probabilty constraintment.
+ *
+ * @implements {SubgraphType}
  */
-export default class Subgraph {
+export default class Subgraph extends SubgraphType {
     
     /**
      * Creates a subgraph for an execution graph.
+     *
+     * @param {ExecutionGraph} graph - Execution graph that this will be added
+     *                               to.
      */
     constructor(graph) {
-        /** @private */
-        this.graph = graph;
-        
-        /**
-         * Root atomic graph of the subgraph
-         * @type {AtomicGraph}
-         */
-        this.body = new AtomicGraph();
+        super(graph);
+        this._body = new AtomicGraph();
+    }
+    
+    /** @private */
+    didSetBody() {
+        this._body.setSuperSubgraph(this);
+    }
+    
+    /**
+     * Returns the atomic graph this holds.
+     * @return {AtomicGraph}
+     */
+    getBody() {
+        return this._body;
     }
     
     /**
@@ -32,7 +45,7 @@ export default class Subgraph {
         serializer.writeOne(i.SUBGRAPH);
         serializer.writeOne(graphIndex << 4 & mask | graphIndex & mask); // Move 2nd half-byte over
          
-        this.body.serialize(serializer);
+        this._body.serialize(serializer);
          
         serializer.writeOne(i.EXIT);
     }

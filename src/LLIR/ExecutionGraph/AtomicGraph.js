@@ -41,6 +41,8 @@ export default class AtomicGraph {
         this.node = new NoOp();
         this.node.setPlaceholder(true);
         
+        this._parentSubgraph = null;
+        
         this.notifyNewNode(this.node);
         this.notifyNewNode(this.entry);
         this.notifyNewNode(this.exit);
@@ -55,6 +57,32 @@ export default class AtomicGraph {
      */
     getSupergraph() {
         return this.supergraph;
+    }
+    
+    /**
+     * Returns the super/parenting subgraph.
+     * @return {?Subgraph} gets the owning subgraph. `null` if does not exist.
+     */
+    getSuperSubgraph() {
+        if (this._parentSubgraph) return this._parentSubgraph;
+        
+        let supergraph = this.getSupergraph();
+        if (supergraph) return supergraph.getSuperSubgraph();
+        
+        return null;
+    }
+    
+    /**
+     * Sets the super subgraph for this atomic graph. This should be called
+     * after the atom has been added and should be added to the top-most graph.
+     *
+     * @param {Subgraph} graph - Subgraph to set as parent
+     * @return {boolean} `true` if set. `false` is already set or if
+     */
+    setSuperSubgraph(graph) {
+        if (this._parentSubgraph || graph.getBody() !== this) return false;
+        this._parentSubgraph = graph;
+        return true;
     }
     
     /**

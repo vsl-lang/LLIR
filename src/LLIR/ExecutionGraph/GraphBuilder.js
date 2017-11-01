@@ -1,4 +1,6 @@
-import { Conditional, NoOp } from '@/ExecutionGraph/Node/Nodes/*';
+import { Chain, Conditional, NoOp } from '@/ExecutionGraph/Node/Nodes/*';
+import AtomicGraph from '@/ExecutionGraph/AtomicGraph';
+import ExternalSubgraph from '@/ExecutionGraph/ExternalSubgraph';
 
 /**
  * Factory class for building graph nodes for {@link ExecutionGraph}s.
@@ -13,6 +15,24 @@ export default class GraphBuilder {
     }
     
     /**
+     * Creates an external subgraph.
+     * @param {string} name - Name of subgraph (external & internal)
+     * @param {FunctionType} type - Function type describing graph
+     * @return {ExternalSubgraph} You can pretty much discard this
+     */
+    externalSubgraph(name, type) {
+        let subgraph = new ExternalSubgraph(
+            this.graph,
+            name,
+            type
+        );
+        
+        this.graph.subgraphs.add(subgraph);
+        
+        return subgraph;
+    }
+    
+    /**
      * Sets a default payload generator for a node.
      *
      * @param {func(node: Node): any} payloadSource - function returning payload
@@ -20,6 +40,37 @@ export default class GraphBuilder {
      */
     setPayloadSource(payloadSource) {
         this.payloadMake = payloadSource;
+    }
+    
+    /**
+     * Creates an {@link AtomicGraph} wrapper for a node.
+     *
+     * @param {Node} node - If this sets an offset domain that will be
+     *                    propogated.
+     * @return {AtomicGraph}
+     */
+    wrapAtomic(node) {
+        let graph = new AtomicGraph();
+        graph.setAtom(node);
+        return node;
+    }
+    
+    /**
+     * Craetes a chain statement.
+     *
+     * @param {AtomicGraph[]} graphs - A list of atomic graphs which will
+     *                               execute in order as part of the chain.
+     * @return {Chain}
+     */
+    chain(graphs) {
+        let chain = new Chain();
+        
+        for (let i = 0; i < graphs.length; i++) {
+            chain.pushEventGraph(graphs[i]);
+        }
+        
+        this.finishNode(chain);
+        return chain;
     }
     
     /**
@@ -34,7 +85,7 @@ export default class GraphBuilder {
      *                        branch is not compatible with branch exists.
      */
     conditional(branches = []) {
-        let conditional = new Conditional(null);
+        let conditional = new Conditional();
         
         for (let i = 0; i < branches.length; i++) {
             let branch = conditional.branch(branches[i].condition);

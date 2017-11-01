@@ -1,8 +1,10 @@
-import Node from '@/LLIR/ExecutionGraph/Node/Node';
+import Node from '@/ExecutionGraph/Node/Node';
 import i from '@/Serializer/SerializationInfo';
 
 /**
  * Represents a simple continous domain -> codomain mapping node.
+ *
+ * @extends {Node}
  */
 export default class DirectMap extends Node {
     static uidname = 'llir.atom';

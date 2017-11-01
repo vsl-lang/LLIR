@@ -9,7 +9,7 @@ import i from '@/Serializer/SerializationInfo';
  * @abstract
  */
 export default class Node {
-    constructor(payload) {
+    constructor(payload = null) {
         /** @private */
         this.payload = payload;
         

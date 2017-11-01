@@ -4,7 +4,9 @@
  * @property {uint8} START_MASK - Mask to match the start of a start node's
  *                               entry byte
  * @property {uint8} GRAPH - Entry byte for a graph node
+ * @property {uint8} SUBGRAPH_TYPE - Entry byte for an abstract subgraph node
  * @property {uint8} SUBGRAPH - Entry byte for a subgraph node
+ * @property {uint8} EXTERNAL_GRAPH - References an external function.
  * @property {uint8} ATOMIC_GRAPH - Entry byte for an atomic graph node
  * @property {uint8} BRANCH - Entry byte for a branch node
  *
@@ -56,6 +58,8 @@ export default {
     START_MASK: 0xF0, // X  & START_MASK > 0
     
     GRAPH: 0x10,
+    EXTERNAL_GRAPH: 0x14,
+    SUBGRAPH_TYPE: 0x13,
     SUBGRAPH: 0x11,
     ATOMIC_GRAPH: 0x12,
     BRANCH: 0x1A,

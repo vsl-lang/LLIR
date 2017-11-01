@@ -5,11 +5,25 @@ import { Type } from 'llvm-node';
  */
 
 /**
+ * @external {llvm.IntegerType} http://llvm.org/doxygen/classllvm_1_1IntegerType.html
+ */
+
+/**
+ * @external {llvm.PointerType} http://llvm.org/doxygen/classllvm_1_1PointerType.html
+ */
+
+/** @typedef {llvm.PointerType} LLVMString `i8**` */
+/** @typedef {llvm.IntegerType} Int32 `i32` */
+/** @typedef {llvm.IntegerType} Int64 `i64` */
+
+/**
  * @typedef {Object} LLVMPrimitives
- * @property {llvm.Type} int8
- * @property {llvm.Type} int16
- * @property {llvm.Type} int32
- * @property {llvm.Type} int64
+ * @property {Object} int
+ * @property {llvm.IntegerType} int.8
+ * @property {llvm.IntegerType} int.16
+ * @property {Int32} int.32
+ * @property {Int64} int.64
+ * @property {LLVMString} string
  * @property {llvm.Type} double
  */
 
@@ -21,10 +35,13 @@ import { Type } from 'llvm-node';
  */
 export default function LLEstablishPrimitives(context) {
     return {
-        int8: Type.getInt8Ty(context),
-        int16: Type.getInt16Ty(context),
-        int32: Type.getInt32Ty(context),
-        int64: Type.getInt64Ty(context),
-        double: Type.getDoubleTy(context),
+        int: {
+            [8]: Type.getInt8Ty(context),
+            [16]: Type.getInt16Ty(context),
+            [32]: Type.getInt32Ty(context),
+            [64]: Type.getInt64Ty(context),
+        },
+        string: Type.getInt8PtrTy(context),
+        double: Type.getDoubleTy(context)
     }
 }

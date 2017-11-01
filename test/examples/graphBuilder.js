@@ -12,7 +12,7 @@ let branch = conditional.branch(
     conditional
 );
 
-graph.main.body.setAtom(conditional);
+graph.main.getBody().setAtom(conditional);
 
 let generatorInstance = graph.generateWith( generator )
 let stream = new StreamChurn();
