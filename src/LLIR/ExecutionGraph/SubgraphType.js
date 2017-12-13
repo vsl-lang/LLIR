@@ -17,7 +17,7 @@ export default class SubgraphType {
      * @return {ExecutionGraph}
      */
     getExecutionGraph() {
-        return this.graph;
+        return this._graph;
     }
     
     /**

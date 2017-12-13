@@ -52,7 +52,7 @@ export default class GraphBuilder {
     wrapAtomic(node) {
         let graph = new AtomicGraph();
         graph.setAtom(node);
-        return node;
+        return graph;
     }
     
     /**

@@ -12,6 +12,7 @@
                     "babel-plugin-transform-optional-chaining",
                     ["babel-plugin-transform-class-properties", { "loose": true }],
                     "babel-plugin-transform-export-extensions",
+                    "babel-plugin-transform-object-rest-spread",
                     ["babel-plugin-root-import", [{
                         "rootPathPrefix": "~",
                         "rootPathSuffix": "src/"
