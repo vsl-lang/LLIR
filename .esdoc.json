@@ -2,7 +2,7 @@
     "source": "./src",
     "destination": "docs",
     "excludes": [ "^app", "^cli" ],
-    
+
     "plugins": [
         {
             "name": "esdoc-babel-7-plugin",

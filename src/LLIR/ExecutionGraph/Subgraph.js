@@ -10,23 +10,25 @@ import i from '@/Serializer/SerializationInfo';
  * @implements {SubgraphType}
  */
 export default class Subgraph extends SubgraphType {
-    
+
     /**
      * Creates a subgraph for an execution graph.
      *
+     * @param {string} name - Name of subgraph. This is often analagous with the
+     *                      resultant name. Must be unique.
      * @param {ExecutionGraph} graph - Execution graph that this will be added
      *                               to.
      */
-    constructor(graph) {
-        super(graph);
+    constructor(graph, name) {
+        super(graph, name);
         this._body = new AtomicGraph();
     }
-    
+
     /** @private */
     didSetBody() {
         this._body.setSuperSubgraph(this);
     }
-    
+
     /**
      * Returns the atomic graph this holds.
      * @return {AtomicGraph}
@@ -34,7 +36,7 @@ export default class Subgraph extends SubgraphType {
     getBody() {
         return this._body;
     }
-    
+
     /**
      * Serializes
      * @param {Serialize} serializer - serializer
@@ -44,9 +46,9 @@ export default class Subgraph extends SubgraphType {
         const mask = ~i.START_MASK;
         serializer.writeOne(i.SUBGRAPH);
         serializer.writeOne(graphIndex << 4 & mask | graphIndex & mask); // Move 2nd half-byte over
-         
+
         this._body.serialize(serializer);
-         
+
         serializer.writeOne(i.EXIT);
     }
 }
